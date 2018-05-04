@@ -1,0 +1,54 @@
+---
+
+- hosts: all
+  vars:
+    test: 'test value'
+    simple_list: ['first', 'second']
+    simple_list_1:
+      - 'one1'
+      - "two1"
+      - "three1"
+    debug: True
+    version: 1.2.3
+  tasks:
+    - name: nice debug
+      debug:
+        msg: "my name is {{ test }}"
+      tags: simple
+
+    - name: show list
+      debug:
+        var: simple_list
+      when: debug
+
+    - name: show dict
+      debug:
+        var: simple_list[0].upper()
+    - name: list /tmp
+      command: "ls /tmp"
+      register: output
+
+#    - name: show tmp_content
+#      debug: 
+#        var: output
+#      when: output.failed
+#    - name: magic vars
+#      debug:
+#        var: hostvars
+    - name: ver
+      debug:
+        var: version
+    - name: show file
+      debug:
+        msg: "one of the files is {{ item }}" 
+      with_items: "{{ output.stdout_lines}}"
+    
+    - name: show my list
+      debug:
+        var: items
+      with_items:
+        - c1
+        - c2
+
+...
+

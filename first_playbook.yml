@@ -1,0 +1,46 @@
+---
+- hosts: all
+  gather_facts: true
+  handlers:
+     - name: restart apache
+       debug:
+         msg: "restarting apache"
+       listen:
+         - "restarts" 
+  vars:
+     name_: 'IOn'
+  tasks:
+     - name: show hello world
+       debug:
+         msg: "My name IS {{ansible_hostname}}"
+       tags: show
+     - name: add frequentis group
+       group:
+         name: frequentis
+         state: present
+
+     - name: add frequntis users
+       user:
+         name: frequentis_name
+         group: frequentis
+         groups: users
+         state: present
+        # password: "secret"  
+
+     - name: create some wonderfull file
+       shell: echo 'ana are mere' > wonderfull
+       args:
+         creates: /tmp/wonderfull
+       notify: "restarts"
+     
+#     - name: include sensitive variables
+#       include_vars:
+#         file: vars.yml
+
+     - name: set password
+       debug:
+#        var: pass
+     - name: upercase
+       debug:
+         msg: "my name is {{name_|upper }}"
+...

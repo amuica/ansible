@@ -1,0 +1,26 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+   - name: install nginx+git
+     yum:
+      name:
+        - nginx
+        - git 
+      state: present
+      update_cache: yes 
+   - name: pull project
+     git: 
+      repo: https://github.com/rif/simplepage.git 
+      dest: /var/www/html/simplepage/index.html
+   - name: link indexbat
+     file:
+       src: "/var/www/html/simplepage/index.html"
+       dest: "/usr/share/nginx/html/index.html"
+       state: link
+   - name: ensure nginx is installed
+     systemd:
+       state: started
+       name: nginx
+...
+
