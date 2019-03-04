@@ -18,7 +18,7 @@
        src: "/var/www/html/simplepage/index.html"
        dest: "/usr/share/nginx/html/index.html"
        state: link
-   - name: ensure nginx is installed
+   - name: ensure nginx is installed (test branch)
      systemd:
        state: started
        name: nginx
